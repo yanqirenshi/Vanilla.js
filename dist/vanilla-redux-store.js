@@ -1,4 +1,4 @@
-class Simple_Redux_Store {
+class Vanilla_Redux_Store {
     constructor (reducer, contents) {
         this._reducer = reducer;
         this._contents = contents;

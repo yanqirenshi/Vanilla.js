@@ -1,4 +1,4 @@
-class Simple_Redux_Actions {
+class Vanilla_Redux_Actions {
     constructor () {}
     sampleAction (data) {
         return {

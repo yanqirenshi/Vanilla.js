@@ -1,4 +1,4 @@
-class Simple_Redux_Reducer {
+class Vanilla_Redux_Reducer {
     constructor () {}
 
     ht_p (v) {
