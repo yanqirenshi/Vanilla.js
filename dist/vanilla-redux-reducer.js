@@ -1,13 +1,12 @@
 class Vanilla_Redux_Reducer {
     constructor () {}
-
     ht_p (v) {
         return v instanceof Object && !(v instanceof Array);
     }
-
     merge_core (ht, add_ht) {
         for (var k in add_ht) {
             var v = add_ht[k];
+            if (!ht) ht = {};
             if (!this.ht_p(v))
                 ht[k] = v;
             else
@@ -15,7 +14,6 @@ class Vanilla_Redux_Reducer {
         }
         return ht;
     }
-
     merge (state, add_state) {
         var new_state = Object.assign({}, state);
 
@@ -23,7 +21,6 @@ class Vanilla_Redux_Reducer {
 
         return new_state;
     }
-
     put (state, action) {
         switch (action.type) {
 

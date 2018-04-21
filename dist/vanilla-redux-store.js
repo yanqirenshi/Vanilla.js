@@ -4,11 +4,9 @@ class Vanilla_Redux_Store {
         this._contents = contents;
         this._subscribes = [];
     }
-
     state () {
         return Object.assign({}, this._contents);
     }
-
     get (keys) {
         var keyList = keys.split(".");
         var tmp = this._contents;
@@ -19,7 +17,6 @@ class Vanilla_Redux_Store {
         }
         return tmp;
     }
-
     dispatch (action) {
         this._contents = this._reducer.put(this._contents, action);
 
@@ -27,7 +24,6 @@ class Vanilla_Redux_Store {
         for (var i in funcs)
             funcs[i](action);
     }
-
     subscribe (func) {
         this._subscribes.push(func);
     }

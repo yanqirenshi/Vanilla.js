@@ -25,7 +25,6 @@ class Vanilla_Ajax {
         };
         this.callback = params.callback ? params.callback : {};
     }
-
     makeUri (path) {
         var port = '';
         if (this.port)
@@ -37,12 +36,10 @@ class Vanilla_Ajax {
             + this.path.prefix
             + path;
     }
-
     error401 () {
         location.href = '/sign-in.html';
         return {};
     }
-
     errorCase (response) {
         let status = response.status;
         let callback = this.callback[status];
@@ -55,7 +52,6 @@ class Vanilla_Ajax {
 
         return {};
     }
-
     makeData (method, body) {
         var data =  {
             method: method ? method : 'GET',
@@ -79,7 +75,6 @@ class Vanilla_Ajax {
 
         return data;
     }
-
     get (path, callback) {
         var uri = this.makeUri(path);
         fetch(uri, this.makeData())
@@ -94,7 +89,6 @@ class Vanilla_Ajax {
                 this.dump(error);
             }.bind(this));
     }
-
     post (path, data, callback) {
         var uri = this.makeUri(path);
         fetch(uri, this.makeData('POST', data))
@@ -106,7 +100,6 @@ class Vanilla_Ajax {
             })
             .then(callback);
     }
-
     put (path, data, callback) {
         var uri = this.makeUri(path);
         fetch(uri, this.makeData('PUT', data))
@@ -166,14 +159,13 @@ class Vanilla_Redux_Actions {
 }
 class Vanilla_Redux_Reducer {
     constructor () {}
-
     ht_p (v) {
         return v instanceof Object && !(v instanceof Array);
     }
-
     merge_core (ht, add_ht) {
         for (var k in add_ht) {
             var v = add_ht[k];
+            if (!ht) ht = {};
             if (!this.ht_p(v))
                 ht[k] = v;
             else
@@ -181,7 +173,6 @@ class Vanilla_Redux_Reducer {
         }
         return ht;
     }
-
     merge (state, add_state) {
         var new_state = Object.assign({}, state);
 
@@ -189,7 +180,6 @@ class Vanilla_Redux_Reducer {
 
         return new_state;
     }
-
     put (state, action) {
         switch (action.type) {
 
@@ -211,11 +201,9 @@ class Vanilla_Redux_Store {
         this._contents = contents;
         this._subscribes = [];
     }
-
     state () {
         return Object.assign({}, this._contents);
     }
-
     get (keys) {
         var keyList = keys.split(".");
         var tmp = this._contents;
@@ -226,7 +214,6 @@ class Vanilla_Redux_Store {
         }
         return tmp;
     }
-
     dispatch (action) {
         this._contents = this._reducer.put(this._contents, action);
 
@@ -234,7 +221,6 @@ class Vanilla_Redux_Store {
         for (var i in funcs)
             funcs[i](action);
     }
-
     subscribe (func) {
         this._subscribes.push(func);
     }
