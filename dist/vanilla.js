@@ -129,6 +129,7 @@ class Vanilla_Redux_Reducer {
     merge_core (ht, add_ht) {
         for (var k in add_ht) {
             var v = add_ht[k];
+            if (!ht) ht = {};
             if (!this.ht_p(v))
                 ht[k] = v;
             else
