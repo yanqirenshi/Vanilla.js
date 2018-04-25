@@ -6,10 +6,10 @@
 
 ```js
 let Metronome = new Vanilla_metronome({
-    interval: 1000,
-    tick: function (count) {
-       console.log((count % 2)==1 ? 'Tick!' : 'Tack!')
-    }
+interval: 1000,
+tick: function (count) {
+console.log((count % 2)==1 ? 'Tick!' : 'Tack!')
+}
 });
 Metronome.start();
 Metronome.stop();
