@@ -12,19 +12,22 @@ class Vanilla_metronome {
         this.interval = params.interval;
         this.tick = params.tick;
     }
+    tick () {
+        this._count += 1;
+
+        if (this._count==88888887)
+            this._count = 1;
+
+        this.tick(this._count);
+    }
     start () {
-        if (this._timer)
-            this.stop();
+        if (this._timer) this.stop();
+
+        this.tick();
 
         let interval = this.interval ? this.interval : 1000;
-        this._timer = setInterval(function () {
-            this._count += 1;
 
-            if (this._count==88888887)
-                this._count = 1;
-
-            this.tick(this._count);
-        }.bind(this), interval);
+        this._timer = setInterval(() => { this.tick();}, interval);
     }
     stop () {
         if (this._timer)

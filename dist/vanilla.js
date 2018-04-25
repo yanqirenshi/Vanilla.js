@@ -25,7 +25,6 @@ class Vanilla_Ajax {
         };
         this.callback = params.callback ? params.callback : {};
     }
-
     makeUri (path) {
         var port = '';
         if (this.port)
@@ -37,12 +36,10 @@ class Vanilla_Ajax {
             + this.path.prefix
             + path;
     }
-
     error401 () {
         location.href = '/sign-in.html';
         return {};
     }
-
     errorCase (response) {
         let status = response.status;
         let callback = this.callback[status];
@@ -55,7 +52,6 @@ class Vanilla_Ajax {
 
         return {};
     }
-
     makeData (method, body) {
         var data =  {
             method: method ? method : 'GET',
@@ -79,7 +75,6 @@ class Vanilla_Ajax {
 
         return data;
     }
-
     get (path, callback) {
         var uri = this.makeUri(path);
         fetch(uri, this.makeData())
@@ -94,7 +89,6 @@ class Vanilla_Ajax {
                 this.dump(error);
             }.bind(this));
     }
-
     post (path, data, callback) {
         var uri = this.makeUri(path);
         fetch(uri, this.makeData('POST', data))
@@ -106,7 +100,6 @@ class Vanilla_Ajax {
             })
             .then(callback);
     }
-
     put (path, data, callback) {
         var uri = this.makeUri(path);
         fetch(uri, this.makeData('PUT', data))
@@ -117,42 +110,6 @@ class Vanilla_Ajax {
                     return this.errorCase(response);
             })
             .then(callback);
-    }
-}
-class Vanilla_metronome {
-    /*
-     * {
-     *   interval: 1000
-     *   tick: function () {}
-     * }
-     */
-    constructor(params) {
-        this._timer = null;
-        this._count = 0;
-
-        this.interval = params.interval;
-        this.tick = params.tick;
-    }
-    start () {
-        if (this._timer)
-            this.stop();
-
-        let interval = this.interval ? this.interval : 1000;
-        this._timer = setInterval(function () {
-            this._count += 1;
-
-            if (this._count==88888887)
-                this._count = 1;
-
-            this.tick(this._count);
-        }.bind(this), interval);
-    }
-    stop () {
-        if (this._timer)
-            clearInterval(this._timer);
-
-        this._count = 0;
-        this._timer = null;
     }
 }
 class Vanilla_Redux_Actions {
@@ -166,11 +123,9 @@ class Vanilla_Redux_Actions {
 }
 class Vanilla_Redux_Reducer {
     constructor () {}
-
     ht_p (v) {
         return v instanceof Object && !(v instanceof Array);
     }
-
     merge_core (ht, add_ht) {
         for (var k in add_ht) {
             var v = add_ht[k];
@@ -181,7 +136,6 @@ class Vanilla_Redux_Reducer {
         }
         return ht;
     }
-
     merge (state, add_state) {
         var new_state = Object.assign({}, state);
 
@@ -189,7 +143,6 @@ class Vanilla_Redux_Reducer {
 
         return new_state;
     }
-
     put (state, action) {
         switch (action.type) {
 
@@ -211,11 +164,9 @@ class Vanilla_Redux_Store {
         this._contents = contents;
         this._subscribes = [];
     }
-
     state () {
         return Object.assign({}, this._contents);
     }
-
     get (keys) {
         var keyList = keys.split(".");
         var tmp = this._contents;
@@ -226,7 +177,6 @@ class Vanilla_Redux_Store {
         }
         return tmp;
     }
-
     dispatch (action) {
         this._contents = this._reducer.put(this._contents, action);
 
@@ -234,7 +184,6 @@ class Vanilla_Redux_Store {
         for (var i in funcs)
             funcs[i](action);
     }
-
     subscribe (func) {
         this._subscribes.push(func);
     }
@@ -266,5 +215,44 @@ class Vanilla_URI {
         let nodes = ret ? ret[1].split('/') : [];
 
         return this.parseUrlHash_list2ht(ret[1].split('/'));
+    }
+}
+class Vanilla_metronome {
+    /*
+     * {
+     *   interval: 1000
+     *   tick: function () {}
+     * }
+     */
+    constructor(params) {
+        this._timer = null;
+        this._count = 0;
+
+        this.interval = params.interval;
+        this.tick = params.tick;
+    }
+    tick () {
+        this._count += 1;
+
+        if (this._count==88888887)
+            this._count = 1;
+
+        this.tick(this._count);
+    }
+    start () {
+        if (this._timer) this.stop();
+
+        this.tick();
+
+        let interval = this.interval ? this.interval : 1000;
+
+        this._timer = setInterval(() => { this.tick();}, interval);
+    }
+    stop () {
+        if (this._timer)
+            clearInterval(this._timer);
+
+        this._count = 0;
+        this._timer = null;
     }
 }
