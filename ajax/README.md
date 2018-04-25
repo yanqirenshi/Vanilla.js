@@ -1,4 +1,4 @@
-
+f
 # vanilla-ajax
 オレオレ Ajax ライブラリです。
 
@@ -6,17 +6,17 @@
 
 ```js
 var API = new Vanilla_Ajax({
-    scheme: 'http',
-    host: 'localhost',
-    port: '8080',
-    path: '/prefix'
-    credentials: 'include',
-    callback: {
-       401: function (r, api) {
-          location.hash = '#sign-in';
-       }
-    }
-}); 
+scheme: 'http',
+host: 'localhost',
+port: '8080',
+path: '/prefix'
+credentials: 'include',
+callback: {
+401: function (r, api) {
+location.hash = '#sign-in';
+}
+}
+});
 ```
 
 

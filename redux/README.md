@@ -9,13 +9,13 @@
 
 ```html
 <html>
-    <head>
-        <script src="./src/libs/simple-redux.js"></script>
-    </head>
-    <body>
-        <script src="./redux/Actions.js"></script>
-        <script src="./redux/Reducer.js"></script>
-    </body>
+<head>
+<script src="./src/libs/simple-redux.js"></script>
+</head>
+<body>
+<script src="./redux/Actions.js"></script>
+<script src="./redux/Reducer.js"></script>
+</body>
 </html>
 ```
 
@@ -24,12 +24,12 @@
 
 ```js
 class Actions extends Simple_Redux_Actions {
-    movePage (data) {
-        return {
-            type: 'MOVE-PAGE',
-            data: data
-        };
-    }
+movePage (data) {
+return {
+type: 'MOVE-PAGE',
+data: data
+};
+}
 }
 ```
 
@@ -37,16 +37,16 @@ class Actions extends Simple_Redux_Actions {
 
 ```js
 class Reducer extends Simple_Redux_Reducer {
-    put (state, action) {
-        switch (action.type) {
+put (state, action) {
+switch (action.type) {
 
-        case 'MOVE-PAGE':
-            return this.merge(state, action.data);
+case 'MOVE-PAGE':
+return this.merge(state, action.data);
 
-        default:
-            return state;
-        }
-    }
+default:
+return state;
+}
+}
 }
 ```
 
@@ -57,7 +57,7 @@ class Reducer extends Simple_Redux_Reducer {
 var ACTIONS = new Actions();
 var REDUCER = new Reducer();
 var STORE = new Simple_Redux_Store (REDUCER, {
-    contents: 'link-from'
+contents: 'link-from'
 });
 ```
 
@@ -65,6 +65,6 @@ var STORE = new Simple_Redux_Store (REDUCER, {
 
 ```js
 STORE.dispatch(ACTIONS.movePage({
-    contents: 'link-to'
+contents: 'link-to'
 }));
 ```
