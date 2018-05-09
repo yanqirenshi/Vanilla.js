@@ -6,7 +6,7 @@ class Vanilla_Redux_Store {
     }
 
     state () {
-        return Object.assign({}, this._contents);
+        return this._contents;
     }
 
     get (keys) {
