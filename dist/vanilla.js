@@ -1,3 +1,4 @@
+function dump (o) { console.log(o); }
 class Vanilla_Ajax {
     dump (o) {
         console.log(o);
@@ -126,23 +127,8 @@ class Vanilla_Redux_Reducer {
     ht_p (v) {
         return v instanceof Object && !(v instanceof Array);
     }
-    merge_core (ht, add_ht) {
-        for (var k in add_ht) {
-            var v = add_ht[k];
-            if (!ht) ht = {};
-            if (!this.ht_p(v))
-                ht[k] = v;
-            else
-                ht[k] = this.merge_core (ht[k], add_ht[k]);
-        }
-        return ht;
-    }
     merge (state, add_state) {
-        var new_state = Object.assign({}, state);
-
-        new_state = this.merge_core(new_state, add_state);
-
-        return new_state;
+        return state.mergeDeep(add_state);
     }
     put (state, action) {
         switch (action.type) {
@@ -166,7 +152,7 @@ class Vanilla_Redux_Store {
         this._subscribes = [];
     }
     state () {
-        return Object.assign({}, this._contents);
+        return this._contents;
     }
     get (keys) {
         var keyList = keys.split(".");

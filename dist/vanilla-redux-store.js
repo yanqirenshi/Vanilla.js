@@ -5,7 +5,7 @@ class Vanilla_Redux_Store {
         this._subscribes = [];
     }
     state () {
-        return Object.assign({}, this._contents);
+        return this._contents;
     }
     get (keys) {
         var keyList = keys.split(".");
