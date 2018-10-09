@@ -10,12 +10,17 @@ class Vanilla_Redux_Store {
     }
 
     get (keys) {
-        var keyList = keys.split(".");
-        var tmp = this._contents;
-        for (var i=0;i<keyList.length;i++) {
+        let keyList = keys.split(".");
+        let tmp = this._contents;
+
+        for (var i=0 ; i<keyList.length ; i++) {
+            var toString = Object.prototype.toString;
             var key = keyList[i];
-            if (tmp)
-                tmp = tmp[key];
+
+            if (!Immutable.Map.isMap(tmp))
+                tmp = Immutable.Map(tmp);
+
+            tmp = tmp.get(key);
         }
         return tmp;
     }
