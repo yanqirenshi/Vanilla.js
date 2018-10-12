@@ -1,9 +1,12 @@
-function dump (o) { console.log(o); }
-class Vanilla_Ajax {
-    dump (o) {
+function dump (o) {
+    if (arguments.length <= 1) {
         console.log(o);
+        return;
     }
 
+    console.log(Array.apply(null, arguments));
+}
+class Vanilla_Ajax {
     /*
      * {
      *    scheme: 'localhost',
@@ -87,7 +90,7 @@ class Vanilla_Ajax {
             }.bind(this))
             .then(callback)
             .catch(function(error) {
-                this.dump(error);
+                console.log(error);
             }.bind(this));
     }
     post (path, data, callback) {
