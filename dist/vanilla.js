@@ -115,6 +115,17 @@ class Vanilla_Ajax {
             })
             .then(callback);
     }
+    delete (path, callback) {
+        var uri = this.makeUri(path);
+        fetch(uri, this.makeData('delete'))
+            .then(function (response) {
+                if(response.ok)
+                    return response.json();
+                else
+                    return this.errorCase(response);
+            })
+            .then(callback);
+    }
 }
 class Vanilla_Redux_Actions {
     constructor () {}
@@ -268,15 +279,14 @@ class Vanilla_DeepMerge {
         if (v===null) return true;
 
         let type = (typeof v);
-
-        return this._primitives.find(type) ? true : false;
+        return this._primitives.find((d) => { return d==type; }) ? true : false;
     }
     isOperator (v) {
         if (v===null) return true;
 
         let type = (typeof v);
 
-        return this._operator.find(type) ? true : false;
+        return this._operator.find((d) => { return d==type; }) ? true : false;
     }
     isArray (v) {
         return (v instanceof Object && v instanceof Array) ? true : false;

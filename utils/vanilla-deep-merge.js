@@ -15,13 +15,20 @@ class Vanilla_DeepMerge {
         if (v===null) return true;
 
         let type = (typeof v);
-        return (this._primitives.indexOf(type)==-1) ? false : true;
+        return this._primitives.find((d) => { return d==type; }) ? true : false;
     }
     isOperator (v) {
         if (v===null) return true;
 
         let type = (typeof v);
-        return (this._operator.indexOf(type)==-1) ? false : true;
+
+        return this._operator.find((d) => { return d==type; }) ? true : false;
+    }
+    isArray (v) {
+        return (v instanceof Object && v instanceof Array) ? true : false;
+    }
+    isHash (v) {
+        return (v instanceof Object && !(v instanceof Array)) ? true : false;
     }
     copyVal (val) {
         let toString = Object.prototype.toString;
@@ -50,19 +57,23 @@ class Vanilla_DeepMerge {
     }
     copyArray (arr) {
         let out = [];
+
         for (var i in arr) {
             out.push(this.copyVal(arr[i]));
         }
+
         return out;
     }
     copyHash (hash) {
         var toString = Object.prototype.toString;
 
         let out = {};
+
         for (var key in hash) {
             let val = hash[key];
             out[key] = this.copyVal(val);
         }
+
         return out;
     }
     copy (source) {

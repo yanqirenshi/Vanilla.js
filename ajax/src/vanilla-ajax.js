@@ -118,4 +118,16 @@ class Vanilla_Ajax {
             })
             .then(callback);
     }
+
+    delete (path, callback) {
+        var uri = this.makeUri(path);
+        fetch(uri, this.makeData('delete'))
+            .then(function (response) {
+                if(response.ok)
+                    return response.json();
+                else
+                    return this.errorCase(response);
+            })
+            .then(callback);
+    }
 }
