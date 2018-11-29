@@ -47,14 +47,14 @@ class Vanilla_Ajax {
     errorCase (response) {
         let status = response.status;
         let callback = this.callback[status];
+        let callback_other = this.callback.other;
 
         if (callback)
-            return callback(response, this);
+            callback(response, this);
+        else if (callback_other)
+            callback_other(response, this);
 
-        // Other Error Case
-        console.log('Error!' + uri);
-
-        return {};
+        return response.json();
     }
     makeData (method, body) {
         var data =  {
@@ -79,52 +79,50 @@ class Vanilla_Ajax {
 
         return data;
     }
+    jsonCallback (callback, json, response) {
+        let status = response.status;
+        let success  = response.ok;
+
+        if (callback)
+            callback(json, success, status, response);
+    }
+    applyCallback2Promis (callback, promis) {
+        let response_tmp = null;
+        promis.then((response) => {
+                response_tmp = response;
+
+                return response.ok ? response.json() : this.errorCase(response);
+            })
+            .then((json) => {
+                this.jsonCallback(callback, json, response_tmp);
+            })
+            .catch((error) => {
+                dump(error);
+            });
+    }
     get (path, callback) {
-        var uri = this.makeUri(path);
-        fetch(uri, this.makeData())
-            .then(function (response) {
-                if (response.ok)
-                    return response.json();
-                else
-                    return this.errorCase(response);
-            }.bind(this))
-            .then(callback)
-            .catch(function(error) {
-                console.log(error);
-            }.bind(this));
+        let uri = this.makeUri(path);
+        let promis = fetch(uri, this.makeData());
+
+        this.applyCallback2Promis(callback, promis);
     }
     post (path, data, callback) {
-        var uri = this.makeUri(path);
-        fetch(uri, this.makeData('POST', data))
-            .then(function (response) {
-                if(response.ok)
-                    return response.json();
-                else
-                    return this.errorCase(response);
-            })
-            .then(callback);
+        let uri = this.makeUri(path);
+        let promis = this.makeData('POST', data);
+
+        this.applyCallback2Promis(callback, fetch(uri, promis));
     }
     put (path, data, callback) {
-        var uri = this.makeUri(path);
-        fetch(uri, this.makeData('PUT', data))
-            .then(function (response) {
-                if(response.ok)
-                    return response.json();
-                else
-                    return this.errorCase(response);
-            })
-            .then(callback);
+        let uri = this.makeUri(path);
+        let promis = this.makeData('PUT', data);
+
+        this.applyCallback2Promis(callback, fetch(uri, promis));
     }
     delete (path, callback) {
-        var uri = this.makeUri(path);
-        fetch(uri, this.makeData('delete'))
-            .then(function (response) {
-                if(response.ok)
-                    return response.json();
-                else
-                    return this.errorCase(response);
-            })
-            .then(callback);
+        let uri = this.makeUri(path);
+        let promis = fetch(uri, this.makeData('delete'));
+
+        this.applyCallback2Promis(callback, fetch(uri, promis));
     }
 }
 class Vanilla_Redux_Actions {
