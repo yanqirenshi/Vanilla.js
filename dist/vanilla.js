@@ -88,8 +88,15 @@ class Vanilla_Ajax {
     }
     applyCallback2Promis (callback, promis) {
         let response_tmp = null;
-        promis.then((response) => {
+
+        promis
+            .then((response) => {
                 response_tmp = response;
+
+                if (response.redirected) {
+                    location.href = response.url;
+                    return null;
+                }
 
                 return response.ok ? response.json() : this.errorCase(response);
             })
