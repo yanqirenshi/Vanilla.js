@@ -169,6 +169,7 @@ class Vanilla_Redux_Store {
         this._reducer = reducer;
         this._contents = contents;
         this._subscribes = [];
+        this._subscribers = { ht: {}, list: [] };
     }
     state () {
         return this._contents;
@@ -188,15 +189,41 @@ class Vanilla_Redux_Store {
         }
         return tmp;
     }
+    pushMessages (action) {
+        var funcs = this._subscribes;
+
+        for (var i in funcs)
+            funcs[i](action);
+
+        for (let func of this._subscribers.list)
+            func(action);
+    }
     dispatch (action) {
         this._contents = this._reducer.put(this._contents, action);
 
-        var funcs = this._subscribes;
-        for (var i in funcs)
-            funcs[i](action);
+        this.pushMessages(action);
     }
-    subscribe (func) {
+    subscribeAtFunction (func) {
         this._subscribes.push(func);
+    }
+    subscribeAtSubscriberAndFunction (subscriber, func) {
+        let old_func = this._subscribers.ht[subscriber];
+
+        if (old_func) {
+            let pos = this._subscribers.list.indexOf(old_func);
+            this._subscribers.list.splice(pos, 1);
+        }
+
+        this._subscribers.ht[subscriber] = func;
+        this._subscribers.list.push(func);
+    }
+    subscribe () {
+        let args_len = arguments.length;
+
+        if (args_len >= 2)
+            this.subscribeAtSubscriberAndFunction(arguments[0], arguments[1]);
+        else
+            this.subscribeAtFunction(arguments[0]);
     }
 }
 class Vanilla_URI {
