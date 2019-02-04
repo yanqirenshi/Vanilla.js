@@ -65,7 +65,7 @@ class Vanilla_Ajax {
         };
 
         if (method=='POST') {
-            data.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+            data.headers['Content-Type'] = 'application/json';
 
             if (body)
                 data.body = JSON.stringify(body);
