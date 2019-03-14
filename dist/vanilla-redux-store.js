@@ -59,4 +59,14 @@ class Vanilla_Redux_Store {
         else
             this.subscribeAtFunction(arguments[0]);
     }
+    setHashTo (page) {
+        for (let child of page.children) {
+            let hash = '#' + page.code;
+
+            if (child.code!='root')
+                hash += '/' + child.code;
+
+            child.hash = hash;
+        }
+    }
 }
