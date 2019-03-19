@@ -228,6 +228,9 @@ class Vanilla_Redux_Store {
     assertHaveChildren (page) {
         console.assert(page, page);
 
+        if (page.tag)
+            return;
+
         if (page.children && page.children.length > 0)
             return;
 
@@ -236,6 +239,8 @@ class Vanilla_Redux_Store {
                         JSON.stringify(page, null , "\t"));
     }
     setHashTo (page) {
+        console.warn('メソッド: setHashTo は非推奨です。vanilla.Router を利用してください。');
+
         this.assertHaveChildren(page);
 
         for (let child of page.children) {
