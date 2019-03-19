@@ -33,6 +33,7 @@ class Vanilla_Ajax {
         var port = '';
         if (this.port)
             port = ':' + this.port;
+
         return this.protcol + '://'
             + this.host
             + port
@@ -224,7 +225,24 @@ class Vanilla_Redux_Store {
         else
             this.subscribeAtFunction(arguments[0]);
     }
+    assertHaveChildren (page) {
+        console.assert(page, page);
+
+        if (page.tag)
+            return;
+
+        if (page.children && page.children.length > 0)
+            return;
+
+        throw new Error('Page に Children が設定されていません。\n' +
+                        'Ppage:\n' +
+                        JSON.stringify(page, null , "\t"));
+    }
     setHashTo (page) {
+        console.warn('メソッド: setHashTo は非推奨です。vanilla.Router を利用してください。');
+
+        this.assertHaveChildren(page);
+
         for (let child of page.children) {
             let hash = '#' + page.code;
 
