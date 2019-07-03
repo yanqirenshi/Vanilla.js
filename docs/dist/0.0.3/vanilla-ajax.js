@@ -96,7 +96,7 @@ class Vanilla_Ajax {
                 this.jsonCallback(callback, json, response_tmp);
             })
             .catch((error) => {
-                dump(error);
+                console.log(error);
             });
     }
     get (path, callback) {
