@@ -107,20 +107,20 @@ class Vanilla_Ajax {
     }
     post (path, data, callback) {
         let uri = this.makeUri(path);
-        let promis = this.makeData('POST', data);
+        let promis = fetch(uri, this.makeData('POST', data));
 
-        this.applyCallback2Promis(callback, fetch(uri, promis));
+        this.applyCallback2Promis(callback, promis);
     }
     put (path, data, callback) {
         let uri = this.makeUri(path);
-        let promis = this.makeData('PUT', data);
+        let promis = fetch(uri, this.makeData('PUT', data));
 
-        this.applyCallback2Promis(callback, fetch(uri, promis));
+        this.applyCallback2Promis(callback, promis);
     }
     delete (path, callback) {
         let uri = this.makeUri(path);
         let promis = fetch(uri, this.makeData('delete'));
 
-        this.applyCallback2Promis(callback, fetch(uri, promis));
+        this.applyCallback2Promis(callback, promis);
     }
 }
